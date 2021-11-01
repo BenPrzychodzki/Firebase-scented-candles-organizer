@@ -56,7 +56,7 @@ class _SignInState extends State<SignIn> {
           children: [
             const SizedBox(height: 20),
             TextFormField(
-              decoration: const InputDecoration(
+              decoration: const InputDecoration( // TODO: Unify form look for all forms
                 icon: Icon(Icons.alternate_email),
                 labelText: "Email",
               ),

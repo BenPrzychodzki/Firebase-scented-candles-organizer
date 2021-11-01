@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_candles_organizer/models/user.dart';
+import 'package:firebase_candles_organizer/services/database_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class AuthService {
@@ -40,6 +41,11 @@ class AuthService {
                                     password: password
                                     );
       User? user = result.user;
+      // check whether user is valid
+      if (user != null) {
+        await DatabaseService(uid: user.uid).updateUserData('0', '0', 0);
+      }
+
       return _userFromFirebaseUser(user);
     } catch(e) {
       print(e.toString());
