@@ -1,7 +1,11 @@
 import 'package:firebase_candles_organizer/pages/home_page.dart';
+import 'package:firebase_candles_organizer/services/auth_service.dart';
 import 'package:firebase_candles_organizer/utils/firebase_wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'models/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); /// if Flutter needs to call native code before calling runApp,
@@ -15,6 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return StreamProvider<UserModel?>.value(
+      initialData: null,
+      value: AuthService().user,
+      child: _buildAppCore(),
+    );
+  }
+
+  MaterialApp _buildAppCore() {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Candles Organizer",

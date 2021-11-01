@@ -1,24 +1,21 @@
-import 'dart:ui';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_candles_organizer/services/auth_service.dart';
 import 'package:firebase_candles_organizer/styles/loading_styles.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
 
   final Function toggleView;
 
-  const SignIn({Key? key, required this.toggleView}) : super(key: key);
+  const Register({Key? key, required this.toggleView}) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
 
   final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>(); /// Used for validating form data
+  final _formKey = GlobalKey<FormState>();
 
   // text field state
   String email = '';
@@ -26,6 +23,7 @@ class _SignInState extends State<SignIn> {
   String error = '';
 
   bool isLoading = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +33,7 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+
   AppBar _buildAppBar() {
     return AppBar(
       actions: [
@@ -42,7 +41,7 @@ class _SignInState extends State<SignIn> {
             onPressed: () {
               widget.toggleView();
             },
-            child: const Text("Register")),
+            child: const Text("Sign In")),
       ],
     );
   }
@@ -56,21 +55,13 @@ class _SignInState extends State<SignIn> {
           children: [
             const SizedBox(height: 20),
             TextFormField(
-              decoration: const InputDecoration(
-                icon: Icon(Icons.alternate_email),
-                labelText: "Email",
-              ),
-              validator: (String? val) => val!.isEmpty ? 'Enter an email' : null, // TODO: better validation func
+              validator: (val) => val!.isEmpty ? 'Enter an email' : null, // TODO: better validation func
               onChanged: (val) {
                 setState(() => email = val);
               },),
             const SizedBox(height: 20),
             TextFormField(
-              decoration: const InputDecoration(
-                icon: Icon(Icons.password),
-                labelText: "Password",
-              ),
-              validator: (String? val) => val!.length < 6 ? 'Password must be at least six chars long' : null, // TODO: better validation func
+              validator: (val) => val!.length < 6 ? 'Password must be at least six chars long' : null, // TODO: better validation func
               obscureText: true,
               onChanged: (val) {
                 setState(() => password = val);
@@ -81,17 +72,17 @@ class _SignInState extends State<SignIn> {
                   // if all TextFormField validators will return null, it means that everything is valid
                   if(_formKey.currentState!.validate()) {
                     setState(() => isLoading = true);
-                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                    dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                     if (result == null) {
                       setState(() {
-                        error = 'Could not sign in with those credentials';
                         isLoading = false;
-                      }); // TODO: More detailed error messages
+                        error = 'please supply a valid email'; // TODO: More detailed error messages
+                      });
                     }
                   }
                 },
                 child: const Text(
-                  "Sign In",
+                  "Register",
                   style: TextStyle(color: Colors.white),
                 )),
             Text(error),
@@ -101,3 +92,22 @@ class _SignInState extends State<SignIn> {
     );
   }
 }
+
+/*
+For anyone who wants to display detailed information about the error : in the auth methods when you catch the errors, you can do a
+
+switch (e.code) {
+ case '(here goes the errorcode)' : return '(your message)'
+ }
+
+ you can look up the errorcodes by hovering over the firebase function and holding ctrl + q.  Make sure these codes are typed correctly since you are comparing strings.
+
+Then inside the  onpressed you can see
+if (result is String) {
+setState(){
+error = result
+)};
+
+
+which is only true when we don't get back a User.
+ */

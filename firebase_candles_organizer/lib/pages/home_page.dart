@@ -1,3 +1,4 @@
+import 'package:firebase_candles_organizer/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,6 +9,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +22,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   AppBar _buildAppBar() {
-    return AppBar();
+    return AppBar(
+      actions: [
+        _buildLogoutButton()]
+    );
   }
 
   Stack _buildBody() {
@@ -27,5 +34,13 @@ class _HomePageState extends State<HomePage> {
     ],);
   }
 
+  TextButton _buildLogoutButton() {
+    return TextButton(
+      onPressed: () async {
+        await _auth.signOut();
+      },
+      child: const Text("Logout"),
+    );
+  }
 }
 
