@@ -1,4 +1,4 @@
-import 'package:firebase_candles_organizer/pages/home_page.dart';
+import 'package:firebase_candles_organizer/pages/home_widgets/home_page.dart';
 import 'package:firebase_candles_organizer/services/auth_service.dart';
 import 'package:firebase_candles_organizer/utils/firebase_wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';

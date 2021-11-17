@@ -43,7 +43,7 @@ class AuthService {
       User? user = result.user;
       // check whether user is valid
       if (user != null) {
-        await DatabaseService(uid: user.uid).updateUserData('0', '0', 0);
+        await DatabaseService(uid: user.uid).updateUserData('test', 'test', 'test', 0, 0);
       }
 
       return _userFromFirebaseUser(user);

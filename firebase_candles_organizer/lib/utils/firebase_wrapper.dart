@@ -1,6 +1,6 @@
 import 'package:firebase_candles_organizer/models/user.dart';
 import 'package:firebase_candles_organizer/pages/authentication/authenticate_page.dart';
-import 'package:firebase_candles_organizer/pages/home_page.dart';
+import 'package:firebase_candles_organizer/pages/home_widgets/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
